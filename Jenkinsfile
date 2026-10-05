@@ -23,12 +23,21 @@ pipeline {
 
         stage('Docker Push') {
             steps {
-                sh '''
-                docker push abinayasenguttuvan/banking-frontend:latest
-                docker push abinayasenguttuvan/banking-backend:latest
-                '''
+                withCredentials([usernamePassword(
+                    credentialsId: 'docker_creds',
+                    usernameVariable: 'abinayasenguttuvan',
+                    passwordVariable: 'abinaya2328'
+                )]) {
+                    sh '''
+                    echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                    docker push abinayasenguttuvan/banking-frontend:latest
+                    docker push abinayasenguttuvan/banking-backend:latest
+                    docker logout
+                    '''
+                }
             }
         }
+
         stage('Deploy Kubernetes') {
             steps {
                 sh '''
