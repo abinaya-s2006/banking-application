@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SecureBank - Create Account</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 15px;
+
+            background: linear-gradient(
+                135deg,
+                #071952,
+                #088395,
+                #35A29F
+            );
+        }
+
+        .register-card {
+            width: 500px;
+            max-width: 100%;
+            background: white;
+            padding: 40px;
+            border-radius: 25px;
+
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            width: 65px;
+            height: 65px;
+
+            margin: 0 auto 15px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background: #071952;
+            border-radius: 50%;
+
+            font-size: 32px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #071952;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #777;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 7px;
+
+            color: #333;
+            font-weight: bold;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 13px;
+
+            border: 1px solid #ddd;
+            border-radius: 10px;
+
+            outline: none;
+            font-size: 15px;
+        }
+
+        .input-group input:focus {
+            border-color: #088395;
+
+            box-shadow:
+                0 0 5px rgba(8, 131, 149, 0.2);
+        }
+
+        .password-box {
+            position: relative;
+        }
+
+        .password-box input {
+            padding-right: 50px;
+        }
+
+        .show-password {
+            position: absolute;
+            right: 12px;
+            top: 11px;
+
+            border: none;
+            background: none;
+
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .terms {
+            font-size: 13px;
+            color: #666;
+            margin: 15px 0 20px;
+        }
+
+        .terms input {
+            margin-right: 5px;
+        }
+
+        .create-btn {
+            width: 100%;
+            padding: 14px;
+
+            border: none;
+            border-radius: 10px;
+
+            background: linear-gradient(
+                90deg,
+                #071952,
+                #088395
+            );
+
+            color: white;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .create-btn:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 20px rgba(8, 131, 149, 0.3);
+        }
+
+        .create-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 22px;
+
+            color: #777;
+            font-size: 14px;
+        }
+
+        .login-link a {
+            color: #088395;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        #message {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .error {
+            color: red;
+        }
+
+        @media (max-width: 500px) {
+
+            .register-card {
+                padding: 30px 20px;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="register-card">
+
+        <div class="logo">
+            🏦
+        </div>
+
+        <h1>Create Account</h1>
+
+        <p class="subtitle">
+            Join SecureBank today
+        </p>
+
+        <form id="registerForm">
+
+            <div class="input-group">
+
+                <label>Full Name</label>
+
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="Enter your full name"
+                    required
+                >
+
+            </div>
+
+            <div class="input-group">
+
+                <label>Email Address</label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your email"
+                    required
+                >
+
+            </div>
+
+            <div class="input-group">
+
+                <label>Phone Number</label>
+
+                <input
+                    type="tel"
+                    id="phone"
+                    placeholder="Enter your phone number"
+                    required
+                >
+
+            </div>
+
+            <div class="input-group">
+
+                <label>Password</label>
+
+                <div class="password-box">
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Create a password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="show-password"
+                        onclick="togglePassword('password', this)"
+                    >
+                        👁️
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="input-group">
+
+                <label>Confirm Password</label>
+
+                <div class="password-box">
+
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        placeholder="Confirm your password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="show-password"
+                        onclick="togglePassword('confirmPassword', this)"
+                    >
+                        👁️
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="terms">
+
+                <label>
+
+                    <input
+                        type="checkbox"
+                        id="terms"
+                        required
+                    >
+
+                    I agree to the Terms & Conditions
+
+                </label>
+
+            </div>
+
+            <button
+                type="submit"
+                class="create-btn"
+                id="createBtn"
+            >
+                Create Account
+            </button>
+
+        </form>
+
+        <div class="login-link">
+
+            Already have an account?
+
+            <a href="index.html">
+                Login
+            </a>
+
+        </div>
+
+        <div id="message"></div>
+
+    </div>
+
+
+<script>
+
+// Show / Hide Password
+function togglePassword(inputId, button) {
+
+    const input = document.getElementById(inputId);
+
+    if (input.type === "password") {
+
+        input.type = "text";
+        button.textContent = "🙈";
+
+    } else {
+
+        input.type = "password";
+        button.textContent = "👁️";
+
+    }
+}
+
+
+// Registration
+document.getElementById("registerForm").addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+        const full_name =
+            document.getElementById("name").value.trim();
+
+        const email =
+            document.getElementById("email").value.trim();
+
+        const phone =
+            document.getElementById("phone").value.trim();
+
+        const password =
+            document.getElementById("password").value;
+
+        const confirmPassword =
+            document.getElementById("confirmPassword").value;
+
+        const message =
+            document.getElementById("message");
+
+        const createBtn =
+            document.getElementById("createBtn");
+
+
+        // Password validation
+        if (password !== confirmPassword) {
+
+            message.textContent =
+                "Passwords do not match!";
+
+            message.className = "error";
+
+            return;
+        }
+
+
+        message.textContent =
+            "Creating your account...";
+
+        message.className = "";
+
+
+        createBtn.disabled = true;
+
+        createBtn.textContent =
+            "Creating Account...";
+
+
+        try {
+
+            const response = await fetch(
+                "http://98.86.171.164:5000/api/register",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        full_name: full_name,
+
+                        email: email,
+
+                        phone: phone,
+
+                        password: password
+
+                    })
+                }
+            );
+
+
+            const data =
+                await response.json();
+
+
+            if (response.ok) {
+
+                message.textContent =
+                    "Registration successful!";
+
+                message.className =
+                    "success";
+
+
+                alert(
+                    "Registration successful! Please login."
+                );
+
+
+                window.location.href =
+                    "index.html";
+
+
+            } else {
+
+                message.textContent =
+                    data.message ||
+                    "Registration failed!";
+
+                message.className =
+                    "error";
+
+            }
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            message.textContent =
+                "Backend connection failed!";
+
+            message.className =
+                "error";
+
+        }
+
+
+        createBtn.disabled = false;
+
+        createBtn.textContent =
+            "Create Account";
+
+    }
+);
+
+</script>
+
+</body>
+</html>
+
+

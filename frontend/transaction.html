@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SecureBank - Transactions</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        .navbar {
+            height: 70px;
+            background: linear-gradient(90deg, #071952, #088395);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+            color: white;
+        }
+
+        .logo {
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+        .back {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 35px auto;
+        }
+
+        .heading {
+            margin-bottom: 25px;
+        }
+
+        .heading h1 {
+            color: #071952;
+            margin-bottom: 7px;
+        }
+
+        .heading p {
+            color: #64748b;
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 22px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.06);
+        }
+
+        .summary-card p {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .summary-card h2 {
+            color: #071952;
+        }
+
+        .transactions {
+            background: white;
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.06);
+        }
+
+        .filters {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .filters input,
+        .filters select {
+            padding: 11px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        .filters input {
+            flex: 1;
+        }
+
+        .transaction {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .transaction:last-child {
+            border-bottom: none;
+        }
+
+        .transaction-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+            background: #e0f2fe;
+        }
+
+        .name {
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+        .date {
+            color: #94a3b8;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .credit {
+            color: #16a34a;
+            font-weight: bold;
+        }
+
+        .debit {
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        .status {
+            font-size: 11px;
+            margin-top: 5px;
+            color: #16a34a;
+        }
+
+        footer {
+            text-align: center;
+            color: #94a3b8;
+            padding: 25px;
+            font-size: 13px;
+        }
+
+        @media (max-width: 700px) {
+
+            .summary {
+                grid-template-columns: 1fr;
+            }
+
+            .filters {
+                flex-direction: column;
+            }
+
+            .transaction {
+                gap: 15px;
+            }
+
+            .transaction-left {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <div class="logo">
+        🏦 SecureBank
+    </div>
+
+    <a href="dashboard.html" class="back">
+        ← Dashboard
+    </a>
+
+</nav>
+
+
+<main class="container">
+
+    <div class="heading">
+
+        <h1>Transaction History</h1>
+
+        <p>
+            View and track all your banking transactions.
+        </p>
+
+    </div>
+
+
+    <div class="summary">
+
+        <div class="summary-card">
+
+            <p>Total Balance</p>
+
+            <h2 id="totalBalance">₹0</h2>
+
+        </div>
+
+        <div class="summary-card">
+
+            <p>Total Credits</p>
+
+            <h2 id="totalCredits">₹0</h2>
+
+        </div>
+
+        <div class="summary-card">
+
+            <p>Total Debits</p>
+
+            <h2 id="totalDebits">₹0</h2>
+
+        </div>
+
+    </div>
+
+
+    <div class="transactions">
+
+        <div class="filters">
+
+            <input
+                type="text"
+                id="search"
+                placeholder="Search transaction..."
+                onkeyup="searchTransactions()"
+            >
+
+            <select
+                id="typeFilter"
+                onchange="filterTransactions()"
+            >
+
+                <option value="all">
+                    All Transactions
+                </option>
+
+                <option value="credit">
+                    Credit
+                </option>
+
+                <option value="debit">
+                    Debit
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div id="transactionList"></div>
+
+    </div>
+
+</main>
+
+
+<footer>
+    © 2026 SecureBank | Secure Digital Banking
+</footer>
+
+
+<script>
+
+const API_URL = "http://98.86.171.164:5000";
+const userId = localStorage.getItem("user_id");
+
+let allTransactions = [];
+
+
+// Load transactions
+async function loadTransactions() {
+
+    try {
+
+        const response = await fetch(
+            API_URL + "/api/transactions/" + userId
+        );
+
+        allTransactions = await response.json();
+
+        displayTransactions(allTransactions);
+
+        calculateSummary(allTransactions);
+
+    } catch (error) {
+
+        console.error("Failed to load transactions:", error);
+
+    }
+}
+
+
+// Display transactions
+function displayTransactions(transactions) {
+
+    const transactionList =
+        document.getElementById("transactionList");
+
+    transactionList.innerHTML = "";
+
+
+    transactions.forEach(transaction => {
+
+        const amount =
+            parseFloat(transaction.amount)
+            .toLocaleString("en-IN");
+
+
+        const isCredit =
+            transaction.transaction_type === "CREDIT";
+
+
+        const row =
+            document.createElement("div");
+
+        row.className = "transaction";
+
+
+        let icon = "💰";
+
+        if (transaction.description === "Shopping") {
+            icon = "🛒";
+        }
+        else if (transaction.description === "Electricity Bill") {
+            icon = "💡";
+        }
+        else if (transaction.description === "Mobile Recharge") {
+            icon = "📱";
+        }
+        else if (transaction.description === "Bank Deposit") {
+            icon = "💵";
+        }
+
+
+        row.setAttribute(
+            "data-type",
+            isCredit ? "credit" : "debit"
+        );
+
+
+        row.innerHTML = `
+
+            <div class="transaction-left">
+
+                <div class="icon">
+                    ${icon}
+                </div>
+
+                <div>
+
+                    <div class="name">
+                        ${transaction.description}
+                    </div>
+
+                    <div class="date">
+                        ${transaction.transaction_date}
+                    </div>
+
+                    <div class="status">
+                        ● Successful
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="${isCredit ? "credit" : "debit"}">
+
+                ${isCredit ? "+" : "-"} ₹${amount}
+
+            </div>
+
+        `;
+
+
+        transactionList.appendChild(row);
+
+    });
+
+}
+
+
+// Calculate summary
+async function calculateSummary(transactions) {
+
+    let totalCredits = 0;
+    let totalDebits = 0;
+
+
+    transactions.forEach(transaction => {
+
+        const amount =
+            parseFloat(transaction.amount);
+
+
+        if (transaction.transaction_type === "CREDIT") {
+
+            totalCredits += amount;
+
+        }
+        else if (
+            transaction.transaction_type === "DEBIT" ||
+            transaction.transaction_type === "TRANSFER"
+        ) {
+
+            totalDebits += amount;
+
+        }
+
+    });
+
+
+    // Get actual account balance
+    try {
+
+        const response = await fetch(
+            API_URL + "/api/account/" + userId
+        );
+
+        const account = await response.json();
+
+        const balance =
+            parseFloat(account.balance);
+
+
+        document.getElementById("totalBalance")
+            .innerText =
+            "₹" + balance.toLocaleString("en-IN");
+
+    } catch (error) {
+
+        console.error("Failed to load balance:", error);
+
+    }
+
+
+    document.getElementById("totalCredits")
+        .innerText =
+        "₹" + totalCredits.toLocaleString("en-IN");
+
+
+    document.getElementById("totalDebits")
+        .innerText =
+        "₹" + totalDebits.toLocaleString("en-IN");
+
+}
+
+
+// Search transactions
+function searchTransactions() {
+
+    const searchValue =
+        document.getElementById("search")
+        .value
+        .toLowerCase();
+
+
+    const filtered =
+        allTransactions.filter(transaction =>
+
+            transaction.description
+            .toLowerCase()
+            .includes(searchValue)
+
+        );
+
+
+    displayTransactions(filtered);
+
+}
+
+
+// Filter transactions
+function filterTransactions() {
+
+    const filter =
+        document.getElementById("typeFilter")
+        .value;
+
+
+    let filtered = allTransactions;
+
+
+    if (filter === "credit") {
+
+        filtered =
+            allTransactions.filter(
+                transaction =>
+                transaction.transaction_type === "CREDIT"
+            );
+
+    }
+
+
+    if (filter === "debit") {
+
+        filtered =
+            allTransactions.filter(
+                transaction =>
+                transaction.transaction_type === "DEBIT" ||
+                transaction.transaction_type === "TRANSFER"
+            );
+
+    }
+
+
+    displayTransactions(filtered);
+
+}
+
+
+loadTransactions();
+
+</script>
+
+</body>
+</html>

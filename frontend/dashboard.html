@@ -1,0 +1,605 @@
+k<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SecureBank - Dashboard</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        .navbar {
+            height: 70px;
+            background: linear-gradient(90deg, #071952, #088395);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+            color: white;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+        .logo-icon {
+            font-size: 30px;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            color: #071952;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 35px auto;
+        }
+
+        .welcome {
+            margin-bottom: 25px;
+        }
+
+        .welcome h1 {
+            color: #071952;
+            margin-bottom: 7px;
+        }
+
+        .welcome p {
+            color: #64748b;
+        }
+
+        .balance-card {
+            background: linear-gradient(135deg, #071952, #088395);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 12px 30px rgba(7,25,82,0.25);
+            margin-bottom: 25px;
+        }
+
+        .balance-label {
+            color: #cbd5e1;
+            font-size: 14px;
+        }
+
+        .balance {
+            font-size: 38px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .account-number {
+            color: #d9ffff;
+            font-size: 14px;
+        }
+
+        .actions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .action-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.06);
+            transition: 0.3s;
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        }
+
+        .action-icon {
+            font-size: 35px;
+            margin-bottom: 10px;
+        }
+
+        .action-card h3 {
+            color: #071952;
+            margin-bottom: 5px;
+        }
+
+        .action-card p {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .transactions {
+            background: white;
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.06);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            color: #071952;
+        }
+
+        .view-all {
+            color: #088395;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .transaction {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .transaction:last-child {
+            border-bottom: none;
+        }
+
+        .transaction-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .transaction-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #e0f2fe;
+            font-size: 20px;
+        }
+
+        .transaction-name {
+            font-weight: bold;
+        }
+
+        .transaction-date {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 4px;
+        }
+
+        .credit {
+            color: #16a34a;
+            font-weight: bold;
+        }
+
+        .debit {
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            color: #94a3b8;
+            padding: 25px;
+            font-size: 13px;
+        }
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .container {
+                width: 92%;
+            }
+
+            .actions {
+                grid-template-columns: 1fr;
+            }
+
+            .balance {
+                font-size: 30px;
+            }
+
+            .profile span {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            <span class="logo-icon">🏦</span>
+            SecureBank
+        </div>
+
+        <div class="profile">
+
+            <span id="profileName">Abinaya</span>
+
+            <div class="profile-icon" id="profileIcon">
+                A
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="container">
+
+        <div class="welcome">
+
+            <h1 id="welcomeMessage">
+                Welcome back, Abinaya 👋
+            </h1>
+
+            <p>
+                Here's your banking overview for today.
+            </p>
+
+        </div>
+
+
+        <!-- BALANCE CARD -->
+
+        <div class="balance-card">
+
+            <div class="balance-label">
+                Available Balance
+            </div>
+
+            <div class="balance" id="balance">
+                Loading...
+            </div>
+
+            <div class="account-number" id="accountNumber">
+                Account No: Loading...
+            </div>
+
+        </div>
+
+
+        <!-- QUICK ACTIONS -->
+
+        <div class="actions">
+
+            <div
+                class="action-card"
+                onclick="goToTransfer()"
+            >
+
+                <div class="action-icon">
+                    💸
+                </div>
+
+                <h3>Transfer Money</h3>
+
+                <p>
+                    Send money securely
+                </p>
+
+            </div>
+
+
+            <div
+                class="action-card"
+                onclick="goToTransactions()"
+            >
+
+                <div class="action-icon">
+                    📊
+                </div>
+
+                <h3>Transactions</h3>
+
+                <p>
+                    View transaction history
+                </p>
+
+            </div>
+
+
+            <div
+                class="action-card"
+                onclick="showMessage()"
+            >
+
+                <div class="action-icon">
+                    👤
+                </div>
+
+                <h3>My Account</h3>
+
+                <p>
+                    View account details
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- RECENT TRANSACTIONS -->
+
+        <div class="transactions">
+
+            <div class="section-header">
+
+                <h2>Recent Transactions</h2>
+
+                <a
+                    href="transaction.html"
+                    class="view-all"
+                >
+                    View All
+                </a>
+
+            </div>
+
+
+            <div class="transaction">
+
+                <div class="transaction-left">
+
+                    <div class="transaction-icon">
+                        💰
+                    </div>
+
+                    <div>
+
+                        <div class="transaction-name">
+                            Salary
+                        </div>
+
+                        <div class="transaction-date">
+                            02 Oct 2026
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="credit">
+                    + ₹50,000
+                </div>
+
+            </div>
+
+
+            <div class="transaction">
+
+                <div class="transaction-left">
+
+                    <div class="transaction-icon">
+                        🛒
+                    </div>
+
+                    <div>
+
+                        <div class="transaction-name">
+                            Shopping
+                        </div>
+
+                        <div class="transaction-date">
+                            01 Oct 2026
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="debit">
+                    - ₹2,500
+                </div>
+
+            </div>
+
+
+            <div class="transaction">
+
+                <div class="transaction-left">
+
+                    <div class="transaction-icon">
+                        💡
+                    </div>
+
+                    <div>
+
+                        <div class="transaction-name">
+                            Electricity Bill
+                        </div>
+
+                        <div class="transaction-date">
+                            30 Sep 2026
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="debit">
+                    - ₹1,200
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <footer>
+        © 2026 SecureBank | Secure Digital Banking
+    </footer>
+
+
+    <script>
+
+        // Backend API
+        const API_URL = "http://98.86.171.164:5000";
+
+        // Load logged-in user details
+        const userId = localStorage.getItem("user_id");
+        const userName = localStorage.getItem("full_name");
+
+        // Display user name
+        if (userName) {
+
+            document.getElementById("profileName").textContent = userName;
+
+            document.getElementById("welcomeMessage").textContent =
+                "Welcome back, " + userName + " 👋";
+
+            document.getElementById("profileIcon").textContent =
+                userName.charAt(0).toUpperCase();
+        }
+
+
+        // Load account details
+        async function loadAccount() {
+
+            if (!userId) {
+
+                document.getElementById("balance").textContent =
+                    "Login required";
+
+                document.getElementById("accountNumber").textContent =
+                    "Account No: Not available";
+
+                return;
+            }
+
+            try {
+
+                const response = await fetch(
+                    API_URL + "/api/account/" + userId
+                );
+
+                const data = await response.json();
+
+                if (!response.ok) {
+
+                    document.getElementById("balance").textContent =
+                        "Account not found";
+
+                    document.getElementById("accountNumber").textContent =
+                        "Account No: Not available";
+
+                    return;
+                }
+
+
+                // Show balance
+                const balance = Number(data.balance);
+
+                document.getElementById("balance").textContent =
+                    "₹" + balance.toLocaleString("en-IN", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+
+
+                // Show account number
+                document.getElementById("accountNumber").textContent =
+                    "Account No: **** **** " +
+                    data.account_number.slice(-4);
+
+            } catch (error) {
+
+                console.error("Account API Error:", error);
+
+                document.getElementById("balance").textContent =
+                    "Unable to load";
+
+                document.getElementById("accountNumber").textContent =
+                    "Account No: Not available";
+            }
+        }
+
+
+        function goToTransfer() {
+
+            window.location.href = "transfer.html";
+
+        }
+
+
+        function goToTransactions() {
+
+            window.location.href = "transaction.html";
+
+        }
+
+function showMessage() {
+
+    const name = localStorage.getItem("full_name");
+
+    const accountNumber =
+        document.getElementById("accountNumber").textContent;
+
+    const balance =
+        document.getElementById("balance").textContent;
+
+    alert(
+        "Account Details\n\n" +
+        "Name: " + (name || "N/A") + "\n" +
+        accountNumber + "\n" +
+        "Balance: " + balance
+    );
+}
+
+
+        // Run when dashboard opens
+        loadAccount();
+
+    </script>
+
+</body>
+</html>

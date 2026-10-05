@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SecureBank - Login</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background: linear-gradient(
+                135deg,
+                #071952,
+                #088395,
+                #35A29F
+            );
+        }
+
+        .login-container {
+            width: 900px;
+            max-width: 95%;
+            min-height: 520px;
+
+            display: flex;
+
+            background: white;
+            border-radius: 25px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Left Side */
+
+        .welcome-section {
+            width: 45%;
+
+            padding: 50px 40px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            color: white;
+
+            background: linear-gradient(
+                135deg,
+                #071952,
+                #088395
+            );
+        }
+
+        .bank-icon {
+            font-size: 55px;
+            margin-bottom: 20px;
+        }
+
+        .welcome-section h1 {
+            font-size: 38px;
+            margin-bottom: 15px;
+        }
+
+        .welcome-section p {
+            line-height: 1.6;
+            color: #e5f9ff;
+        }
+
+        .security {
+            margin-top: 35px;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        /* Right Side */
+
+        .login-section {
+            width: 55%;
+
+            padding: 50px;
+        }
+
+        .login-section h2 {
+            color: #071952;
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #777;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+
+            margin-bottom: 7px;
+
+            color: #333;
+            font-weight: bold;
+        }
+
+        .input-group input {
+            width: 100%;
+
+            padding: 14px;
+
+            border: 1px solid #ddd;
+            border-radius: 10px;
+
+            outline: none;
+
+            font-size: 15px;
+        }
+
+        .input-group input:focus {
+            border-color: #088395;
+
+            box-shadow:
+                0 0 5px rgba(8, 131, 149, 0.2);
+        }
+
+        .password-box {
+            position: relative;
+        }
+
+        .password-box input {
+            padding-right: 50px;
+        }
+
+        .show-password {
+            position: absolute;
+
+            right: 12px;
+            top: 11px;
+
+            border: none;
+            background: none;
+
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 25px;
+
+            font-size: 13px;
+        }
+
+        .remember {
+            color: #666;
+        }
+
+        .remember input {
+            margin-right: 5px;
+        }
+
+        .forgot {
+            color: #088395;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .login-btn {
+            width: 100%;
+
+            padding: 14px;
+
+            border: none;
+            border-radius: 10px;
+
+            background: linear-gradient(
+                90deg,
+                #071952,
+                #088395
+            );
+
+            color: white;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 20px rgba(8, 131, 149, 0.3);
+        }
+
+        .login-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        #message {
+            text-align: center;
+
+            margin-top: 15px;
+
+            font-weight: bold;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .register-link {
+            text-align: center;
+
+            margin-top: 25px;
+
+            color: #777;
+
+            font-size: 14px;
+        }
+
+        .register-link a {
+            color: #088395;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+        @media (max-width: 700px) {
+
+            .login-container {
+                flex-direction: column;
+            }
+
+            .welcome-section {
+                width: 100%;
+                padding: 35px;
+            }
+
+            .login-section {
+                width: 100%;
+                padding: 35px;
+            }
+
+            .welcome-section h1 {
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <!-- Welcome Section -->
+
+        <div class="welcome-section">
+
+            <div class="bank-icon">
+                🏦
+            </div>
+
+            <h1>Welcome to SecureBank</h1>
+
+            <p>
+                Manage your money securely and easily.
+                Access your account, transfer money and
+                view your transactions from one place.
+            </p>
+
+            <div class="security">
+                🔒 Secure Banking<br>
+                ⚡ Fast Transactions<br>
+                🛡️ Protected Account
+            </div>
+
+        </div>
+
+
+        <!-- Login Section -->
+
+        <div class="login-section">
+
+            <h2>Login</h2>
+
+            <p class="subtitle">
+                Sign in to your SecureBank account
+            </p>
+
+
+            <form id="loginForm">
+
+                <div class="input-group">
+
+                    <label>Email Address</label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Enter your email"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>Password</label>
+
+                    <div class="password-box">
+
+                        <input
+                            type="password"
+                            id="password"
+                            placeholder="Enter your password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="show-password"
+                            onclick="togglePassword()"
+                        >
+                            👁️
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="options">
+
+                    <label class="remember">
+
+                        <input
+                            type="checkbox"
+                            id="remember"
+                        >
+
+                        Remember me
+
+                    </label>
+
+                    <a href="#" class="forgot">
+                        Forgot Password?
+                    </a>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="login-btn"
+                    id="loginBtn"
+                >
+                    Login
+                </button>
+
+            </form>
+
+
+            <div id="message"></div>
+
+
+            <div class="register-link">
+
+                Don't have an account?
+
+                <a href="register.html">
+                    Create Account
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+<script>
+
+// Show / Hide Password
+
+function togglePassword() {
+
+    const password =
+        document.getElementById("password");
+
+    const button =
+        document.querySelector(".show-password");
+
+
+    if (password.type === "password") {
+
+        password.type = "text";
+        button.textContent = "🙈";
+
+    } else {
+
+        password.type = "password";
+        button.textContent = "👁️";
+
+    }
+}
+
+
+// Login API
+
+document.getElementById("loginForm").addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+
+        const email =
+            document.getElementById("email").value.trim();
+
+        const password =
+            document.getElementById("password").value;
+
+
+        const message =
+            document.getElementById("message");
+
+        const loginBtn =
+            document.getElementById("loginBtn");
+
+
+        message.textContent =
+            "Logging in...";
+
+        message.className = "";
+
+
+        loginBtn.disabled = true;
+
+        loginBtn.textContent =
+            "Logging in...";
+
+
+        try {
+
+            const response = await fetch(
+                "http://98.86.171.164:5000/api/login",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        email: email,
+
+                        password: password
+
+                    })
+                }
+            );
+
+
+            const data =
+                await response.json();
+
+
+            if (response.ok) {
+
+                message.textContent =
+                    "Login successful!";
+
+                message.className =
+                    "success";
+
+
+                // Store logged-in user details
+
+                localStorage.setItem(
+                    "user_id",
+                    data.user_id
+                );
+
+                localStorage.setItem(
+                    "full_name",
+                    data.full_name
+                );
+
+                localStorage.setItem(
+                    "email",
+                    data.email
+                );
+
+
+                setTimeout(function() {
+
+                    window.location.href =
+                        "dashboard.html";
+
+                }, 800);
+
+
+            } else {
+
+                message.textContent =
+                    data.message ||
+                    "Invalid email or password!";
+
+                message.className =
+                    "error";
+
+            }
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            message.textContent =
+                "Backend connection failed!";
+
+            message.className =
+                "error";
+
+        }
+
+
+        loginBtn.disabled = false;
+
+        loginBtn.textContent =
+            "Login";
+
+    }
+);
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transfer Money - SecureBank</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #071952, #088395, #35A29F);
+            min-height: 100vh;
+        }
+
+        nav {
+            height: 70px;
+            background: rgba(255,255,255,0.97);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.15);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #071952;
+        }
+
+        .logo span {
+            color: #088395;
+        }
+
+        .back {
+            text-decoration: none;
+            color: #088395;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 45px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            color: #071952;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #777;
+            margin-bottom: 30px;
+        }
+
+        .balance {
+            background: linear-gradient(135deg, #071952, #088395);
+            color: white;
+            padding: 22px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .balance p {
+            opacity: 0.8;
+            margin-bottom: 8px;
+        }
+
+        .balance h2 {
+            font-size: 30px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .form-group {
+            flex: 1;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #088395;
+            box-shadow: 0 0 5px rgba(8,131,149,0.2);
+        }
+
+        textarea {
+            resize: none;
+            height: 90px;
+        }
+
+        .transfer-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #071952, #088395);
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .transfer-btn:hover {
+            opacity: 0.9;
+        }
+
+        .security {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f1f8fa;
+            border-radius: 10px;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .success {
+            display: none;
+            margin-top: 25px;
+            padding: 20px;
+            background: #e8f8ee;
+            border: 1px solid #5cbf7a;
+            border-radius: 12px;
+            color: #217a3c;
+            text-align: center;
+        }
+
+        @media (max-width: 650px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .card {
+                padding: 25px;
+            }
+
+            nav {
+                padding: 0 5%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">🏦 Secure<span>Bank</span></div>
+    <a href="dashboard.html" class="back">← Dashboard</a>
+</nav>
+
+<div class="container">
+
+    <div class="card">
+
+        <h1>Transfer Money</h1>
+        <p class="subtitle">Send money securely to another bank account</p>
+
+        <div class="balance">
+            <p>Available Balance</p>
+            <h2>₹75,500.00</h2>
+        </div>
+
+        <form id="transferForm">
+
+            <div class="form-row">
+
+                <div class="form-group">
+                    <label>Receiver Name</label>
+                    <input type="text" id="receiverName"
+                           placeholder="Enter receiver name" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Account Number</label>
+                    <input type="text" id="accountNumber"
+                           placeholder="Enter account number"
+                           maxlength="16" required>
+                </div>
+
+            </div>
+
+            <div class="form-row">
+
+                <div class="form-group">
+                    <label>Confirm Account Number</label>
+                    <input type="text" id="confirmAccount"
+                           placeholder="Re-enter account number"
+                           maxlength="16" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Amount</label>
+                    <input type="number" id="amount"
+                           placeholder="Enter amount"
+                           min="1" required>
+                </div>
+
+            </div>
+
+            <div class="form-row">
+
+                <div class="form-group">
+                    <label>Transfer Mode</label>
+                    <select id="transferMode" required>
+                        <option value="">Select mode</option>
+                        <option>IMPS</option>
+                        <option>NEFT</option>
+                        <option>RTGS</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Purpose</label>
+                    <select id="purpose" required>
+                        <option value="">Select purpose</option>
+                        <option>Personal</option>
+                        <option>Shopping</option>
+                        <option>Education</option>
+                        <option>Rent</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <label>Description</label>
+                <textarea id="description"
+                          placeholder="Enter transfer description"></textarea>
+            </div>
+
+            <button type="submit" class="transfer-btn">
+                Transfer Money
+            </button>
+
+        </form>
+
+        <div class="security">
+            🔒 <strong>Secure Transfer:</strong>
+            Your transaction will be processed securely.
+            Never share your banking password or OTP with anyone.
+        </div>
+
+        <div class="success" id="successMessage">
+            <h3>✅ Transfer Successful!</h3>
+            <p id="successText"></p>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+const API_URL = "http://98.86.171.164:5000";
+const userId = localStorage.getItem("user_id");
+
+document.getElementById("transferForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const receiverAccount = document.getElementById("accountNumber").value;
+    const amount = parseFloat(document.getElementById("amount").value);
+    const description = document.getElementById("description").value;
+
+    if (!userId) {
+        alert("Please login first.");
+        return;
+    }
+
+    if (!receiverAccount || !amount || amount <= 0) {
+        alert("Please enter valid transfer details.");
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_URL}/api/transfer`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                user_id: parseInt(userId),
+                receiver_account: receiverAccount,
+                amount: amount,
+                description: description || "Money Transfer"
+            })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            alert("Money transferred successfully!");
+            window.location.href = "dashboard.html";
+        } else {
+            alert(data.message || "Transfer failed.");
+        }
+
+    } catch (error) {
+        console.error(error);
+        alert("Backend connection error.");
+    }
+});
+</script>
+</body>
+</html>
