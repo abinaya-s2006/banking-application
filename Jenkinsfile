@@ -2,29 +2,38 @@ pipeline {
     agent any
 
     stages {
-        stage('Build Backend Image') {
+
+        stage('Build Frontend') {
             steps {
                 sh '''
-                    cd backend
-                    docker build -t abinayasenguttuvan/banking-backend:latest .
+                cd frontend
+                docker build -t abinayasenguttuvan/banking-frontend:latest .
                 '''
             }
         }
 
-        stage('Build Frontend Image') {
+        stage('Build Backend') {
             steps {
                 sh '''
-                    cd frontend
-                    docker build -t abinayasenguttuvan/banking-frontend:latest .
+                cd backend
+                docker build -t abinayasenguttuvan/banking-backend:latest .
                 '''
             }
         }
 
-        stage('Push Docker Images') {
+        stage('Docker Push') {
             steps {
                 sh '''
-                    docker push abinayasenguttuvan/banking-backend:latest
-                    docker push abinayasenguttuvan/banking-frontend:latest
+                docker push abinayasenguttuvan/banking-frontend:latest
+                docker push abinayasenguttuvan/banking-backend:latest
+                '''
+            }
+        }
+
+        stage('Deploy Kubernetes') {
+            steps {
+                sh '''
+                kubectl apply -f k8s
                 '''
             }
         }
